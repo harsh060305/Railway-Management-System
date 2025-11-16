@@ -1,1 +1,2 @@
 # Railway-Management-System
+The Railway Management System is a full-stack application designed to simplify and automate railway operations. It allows users to manage train schedules, book tickets, track passenger details, and handle administrative tasks through an efficient and user-friendly interface. This project demonstrates core concepts of database management, backend development, and front-end integration, making it a complete solution for learning and showcasing real-world application development.
