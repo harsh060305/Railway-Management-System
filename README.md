@@ -30,4 +30,4 @@ Frontend	HTML, CSS, JSP
 Backend	Java Servlets
 Server	Apache Tomcat
 Database	MySQL
-Build/IDE	Eclipse / IntelliJ
+Build/IDE	Eclipse/ IntelliJ
