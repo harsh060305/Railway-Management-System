@@ -1,0 +1,365 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("sandy.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    padding: 20px 5%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+.hd {
+    text-align: center;
+    padding: 20px;
+    color: #cc0066;
+    font-weight: 800;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7);
+}
+
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    clear: both;
+}
+
+.home {
+    background: linear-gradient(135deg, rgba(255,255,0,0.8), rgba(255,204,0,0.8));
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: blue;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+    height: auto;
+    width: 160px;
+    max-width: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* overriding existing floats if they still apply */
+    float: none;
+}
+
+.home:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, rgba(255,204,0,0.9), rgba(255,255,0,0.9));
+}
+
+.menu {
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+}
+
+a.menu-link, .menu a {
+    color: #006600;
+    text-decoration: none;
+    display: block;
+    padding: 12px 10px;
+    width: 100%;
+    height: 100%;
+}
+
+a:hover.menu-link, .menu a:hover {
+    color: #ff0000;
+}
+
+
+/* All generic tabs */
+.tab {
+    background-color: rgba(255, 229, 204, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    font-weight: bold;
+    text-align: center;
+    font-size: 1rem;
+    margin: 10px auto 20px auto;
+    padding: 25px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.tab.green {
+    background: linear-gradient(to right, #4caf50, #81c784);
+    color: white;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border: none;
+    margin-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.tab.brown {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+form.tab, .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+form.tab label, .form-group label {
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+form.tab input[type="text"],
+form.tab input[type="password"],
+form.tab input[type="email"],
+form.tab input[type="number"],
+form.tab select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form.tab input:focus,
+form.tab select:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+    outline: none;
+}
+
+form.tab input[type="submit"] {
+    background: linear-gradient(to right, #ff9800, #f57c00);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 250px;
+}
+
+form.tab input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245, 124, 0, 0.4);
+    background: linear-gradient(to right, #f57c00, #e65100);
+}
+
+.yel { color: #fbc02d; font-weight: bold; }
+.red { color: #e53935; font-weight: bold; }
+.green { color: #43a047; font-weight: bold; }
+.brown { color: #795548; font-weight: bold; }
+
+.main {
+    background-color: rgba(255, 255, 204, 0.95);
+    border-radius: 12px;
+    text-align: center;
+    margin: 10px auto 20px auto;
+    padding: 20px;
+    color: #e53935;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    max-width: 1000px;
+}
+
+table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+table, th, td {
+    border: none;
+}
+
+thead, th {
+    background-color: #f1f8e9;
+    border-bottom: 2px solid #ddd;
+    color: #1565c0;
+    font-size: 1.1rem;
+    padding: 15px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+    text-align: center;
+}
+
+tr:hover {
+    background-color: #f9fbe7;
+    color: #000;
+    transition: background-color 0.2s;
+}
+
+main {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    border-radius: 8px 8px 0 0;
+    margin-top: auto; 
+    width: 100%;
+}
+
+footer a {
+    color: #4fc3f7;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+#cent {
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
+
+/* Base link styles */
+a {
+    transition: color 0.3s ease;
+}
+
+/* Clear fixes for old floats if any remain un-wrapped */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+    .hd {
+        font-size: 2rem;
+        padding: 15px;
+    }
+    
+    .navbar {
+        justify-content: center;
+    }
+    
+    .home {
+        width: 140px;
+    }
+    
+    .tab {
+        padding: 15px;
+        width: 95%;
+    }
+    
+    form.tab input[type="text"],
+    form.tab input[type="password"],
+    form.tab input[type="email"],
+    form.tab input[type="number"],
+    form.tab select {
+        max-width: 100%;
+    }
+    
+    th {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    
+    td {
+        font-size: 0.95rem;
+        padding: 8px 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hd {
+        font-size: 1.5rem;
+        padding: 10px;
+    }
+    
+    .home {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tab.green {
+        font-size: 1.2rem;
+    }
+    
+    body {
+        padding: 10px 3%;
+    }
+    
+    .table-responsive {
+        border-radius: 4px;
+    }
+}

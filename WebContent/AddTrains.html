@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Trains</title>
+    <link rel="stylesheet" href="UserHome_Css.css">
+</head>
+<body>
+    <header>
+        <h1 class="hd">National Ticket Booking Spot</h1>
+        <nav class="navbar" aria-label="Main Navigation">
+            <div class="home">
+                <p class="menu"><a href="AdminHome.html">Home</a></p>
+            </div>
+            <div class="home">
+                <p class="menu"><a href="adminviewtrainfwd">View Trains</a></p>
+            </div>
+            <div class="home">
+                <p class="menu"><a href="adminsearchtrainfwd">Search By TrainNo</a></p>
+            </div>
+            <div class="home">
+                <p class="menu"><a href="addtrainfwd">Add Train</a></p>
+            </div>
+            <div class="home">
+                <p class="menu"><a href="cancletrainfwd">Delete Train</a></p>
+            </div>
+            <div class="home">
+                <p class="menu"><a href="updatetrain">Update Train Details</a></p>
+            </div>
+            <div class="home">
+                <p class="menu"><a href="adminlogout">Logout</a></p>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="tab green">
+            <h2 class="menu" style="color:white; font-size:1.5rem; text-transform:uppercase; margin:0;">Add Trains</h2>
+        </div>
+        <form class="tab brown" action="adminaddtrain" method="post">
+            <div class="form-group">
+                <label for="trainno">Train Number:</label>
+                <input id="trainno" type="text" name="trainno" placeholder="e.g. 12045">
+            </div>
+            
+            <div class="form-group">
+                <label for="trainname">Train Name:</label>
+                <input id="trainname" type="text" name="trainname" placeholder="e.g. Rajdhani Express">
+            </div>
+            
+            <div class="form-group">
+                <label for="fromstation">From Station:</label>
+                <input id="fromstation" type="text" name="fromstation" placeholder="Starting Station">
+            </div>
+            
+            <div class="form-group">
+                <label for="tostation">To Station:</label>
+                <input id="tostation" type="text" name="tostation" placeholder="Destination Station">
+            </div>
+            
+            <div class="form-group">
+                <label for="available">Available:</label>
+                <input id="available" type="text" name="available" placeholder="Number of Seats (e.g. 150)">
+            </div>
+            
+            <div class="form-group">
+                <label for="fare">Fare (INR):</label>
+                <input id="fare" type="text" name="fare" placeholder="Ticket Base Fare">
+            </div>
+            
+            <input type="submit" value=" ADD TRAIN ">
+        </form>
+    </main>
+
+
+</body>
+</html>

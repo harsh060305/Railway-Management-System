@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>E-Trains</title>
+<link href="UserHome_Css.css" rel="stylesheet"/>
+<style>
+</style>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/></head>
+<body>
+<header>
+<h1 class="hd">National Ticket Booking Spot</h1>
+<nav aria-label="Main Navigation" class="navbar"><div class="home">
+<p class="menu">
+<a href="userhome">Home</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="userviewtrainfwd">View Trains</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="trainbwstnfwd">Trains Between Stations</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="bookingdetails">Ticket Booking History</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="fareenqfwd">Fare Enquiry</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="useravailfwd">Seat Availability</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="usersearchtrain">Search By TrainNo</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="userprofile">Profile</a>
+</p>
+</div><div class="home">
+<p class="menu">
+<a href="userlogout">Logout</a>
+</p>
+</div></nav>
+</header>
+<div class="tab">
+<p class="menu"> Hey, Admin ! Welcome to our new NITRTC Website
+		</p>
+</div>
+<div class="main">
+<p class="menu">Book trains</p>
+</div>
+<div class="tab">
+<p class="menu red">
+			Please Check The <a href="Availability.html">Seat availability</a>
+			before Booking !
+		</p>
+</div>
+<form action="booktrains" class="tab red" method="post"><label for="trainnumber">TrainNumber:</label><input id="trainnumber" name="trainnumber" type="text"/> <label for="seats">No of seats:</label><input id="seats" name="seats" type="text"/> <input type="submit" value=" Book Now "/>
+</form>
+<br/>
+</body>
+</html>
