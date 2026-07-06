@@ -9,7 +9,7 @@ View available trains
 Book tickets
 
 Check booking details
-
+ 
 Cancel tickets
 
 User login & registration
