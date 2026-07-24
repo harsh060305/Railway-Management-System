@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - NexRail</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">🚄 NexRail</a>
+        <div class="nav-links">
+            <span style="color: var(--text-secondary); align-self: center;">Welcome, <span id="navbar-user-name" style="color: white"></span></span>
+            <button onclick="logout()" class="btn btn-danger">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <a href="#" class="sidebar-link active" id="nav-search" onclick="showTab('search')">Search Trains</a>
+            <a href="#" class="sidebar-link" id="nav-history" onclick="loadHistory()">Booking History</a>
+            <a href="#" class="sidebar-link" id="nav-profile" onclick="showTab('profile')">Profile Settings</a>
+        </div>
+
+        <div class="main-content">
+            <!-- Search Trains Tab -->
+            <div id="tab-search">
+                <h2>Search & Book Trains</h2>
+                <div class="card" style="margin: 2rem 0; max-width: 100%;">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>From Station Code</label>
+                            <input type="text" id="srcCode" class="form-control" placeholder="NDLS" value="NDLS">
+                        </div>
+                        <div class="form-group">
+                            <label>To Station Code</label>
+                            <input type="text" id="destCode" class="form-control" placeholder="CSMT" value="CSMT">
+                        </div>
+                    </div>
+                    <button class="btn mt-1" onclick="searchTrains()">Search Trains</button>
+                </div>
+
+                <div id="searchResults" style="display: none;">
+                    <h3>Available Trains</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Train No</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trainTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking History Tab -->
+            <div id="tab-history" style="display: none;">
+                <h2>My Bookings</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>PNR</th>
+                                <th>Train</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="tab-profile" style="display: none;">
+                <h2>Profile Management</h2>
+                <p>Profile options and password update go here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals for Booking -> Simplification: Just call API directly for demo -->
+    <script src="app.js"></script>
+    <script>
+        checkAuth();
+        
+        function showTab(tabName) {
+            document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tabName}`).style.display = 'block';
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+        }
+
+        async function searchTrains() {
+            const src = document.getElementById('srcCode').value;
+            const dest = document.getElementById('destCode').value;
+            
+            const res = await fetchApi(`/trains/search?source=${src}&destination=${dest}`);
+            const tbody = document.getElementById('trainTbody');
+            tbody.innerHTML = '';
+            
+            if(res.success && res.data.length > 0) {
+                res.data.forEach(train => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${train.trainNo}</td>
+                        <td>${train.name}</td>
+                        <td>${train.type}</td>
+                        <td><button class="btn" style="padding: 0.25rem 0.75rem; font-size:0.8rem;" onclick="bookTicket(${train.id})">Book</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                document.getElementById('searchResults').style.display = 'block';
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No trains found for this route</td></tr>';
+                document.getElementById('searchResults').style.display = 'block';
+            }
+        }
+
+        async function bookTicket(trainId) {
+            const user = getUser();
+            const payload = {
+                userId: user.id,
+                trainId: trainId,
+                sourceStationId: 1, // hardcoded for assignment
+                destStationId: 2,   // hardcoded for assignment
+                journeyDate: new Date().toISOString().split('T')[0],
+                trainClass: '3A'
+            };
+            
+            const res = await fetchApi('/bookings', 'POST', payload);
+            if(res.success) {
+                alert(`Ticket Booked! PNR: ${res.data.pnr}`);
+                loadHistory();
+            } else {
+                alert(res.message);
+            }
+        }
+
+        async function loadHistory() {
+            showTab('history');
+            const user = getUser();
+            const res = await fetchApi(`/bookings/user/${user.id}`);
+            const tbody = document.getElementById('historyTbody');
+            tbody.innerHTML = '';
+            
+            if(res.success && res.data.length > 0) {
+                res.data.forEach(b => {
+                    const statusClass = b.status === 'CONFIRMED' ? 'status-confirmed' : 'status-cancelled';
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${b.pnr}</td>
+                        <td>${b.train.name} (${b.train.trainNo})</td>
+                        <td>${b.journeyDate}</td>
+                        <td><span class="status-badge ${statusClass}">${b.status}</span></td>
+                        <td>₹${b.totalAmount}</td>
+                        <td>
+                            ${b.status === 'CONFIRMED' ? `<button class="btn btn-danger" style="padding: 0.25rem 0.75rem; font-size:0.8rem;" onclick="cancelTicket(${b.id})">Cancel</button>` : '-'}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">No booking history available.</td></tr>';
+            }
+        }
+
+        async function cancelTicket(bookingId) {
+            if(!confirm("Are you sure you want to cancel this ticket?")) return;
+            const res = await fetchApi(`/bookings/${bookingId}/cancel`, 'PUT');
+            if(res.success) {
+                alert("Ticket cancelled successfully.");
+                loadHistory();
+            } else {
+                alert(res.message);
+            }
+        }
+    </script>
+</body>
+</html>

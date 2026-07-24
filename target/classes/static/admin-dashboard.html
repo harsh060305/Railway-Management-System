@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - NexRail</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">🚄 NexRail <span style="font-size:0.8rem; color:var(--text-secondary);">[ADMIN]</span></a>
+        <div class="nav-links">
+            <span style="color: var(--text-secondary); align-self: center;">Welcome, Admin</span>
+            <button onclick="logout()" class="btn btn-danger">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <a href="#" class="sidebar-link active" id="nav-trains" onclick="loadTrains()">Manage Trains</a>
+            <a href="#" class="sidebar-link" id="nav-bookings" onclick="loadAllBookings()">All Bookings</a>
+            <a href="#" class="sidebar-link" id="nav-users" onclick="showTab('users')">Manage Users</a>
+        </div>
+
+        <div class="main-content">
+            <!-- Manage Trains -->
+            <div id="tab-trains">
+                <div class="flex justify-between align-center mb-2">
+                    <h2>Train Management</h2>
+                    <button class="btn">Add New Train</button>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Train No</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTrainsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- All Bookings -->
+            <div id="tab-bookings" style="display:none;">
+                <h2>System Bookings</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>PNR</th>
+                                <th>Train</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminBookingsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="tab-users" style="display:none;">
+                <h2>Platform Users</h2>
+                <p>System users will be listed here.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        checkAuth(true); // require admin
+        
+        function showTab(tabName) {
+            document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tabName}`).style.display = 'block';
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+        }
+
+        async function loadTrains() {
+            showTab('trains');
+            const res = await fetchApi('/trains');
+            const tbody = document.getElementById('adminTrainsBody');
+            tbody.innerHTML = '';
+            
+            if(res.success && res.data) {
+                res.data.forEach(t => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${t.id}</td>
+                        <td>${t.trainNo}</td>
+                        <td>${t.name}</td>
+                        <td>${t.type}</td>
+                        <td>
+                            <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size:0.8rem;" onclick="deleteTrain(${t.id})">Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        async function deleteTrain(id) {
+            if(!confirm("Delete this train?")) return;
+            const res = await fetchApi(`/admin/trains/${id}`, 'DELETE');
+            if(res.success) loadTrains();
+        }
+
+        async function loadAllBookings() {
+            showTab('bookings');
+            const res = await fetchApi('/admin/bookings');
+            const tbody = document.getElementById('adminBookingsBody');
+            tbody.innerHTML = '';
+            
+            if(res.success && res.data) {
+                res.data.forEach(b => {
+                    const statusClass = b.status === 'CONFIRMED' ? 'status-confirmed' : 'status-cancelled';
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${b.id}</td>
+                        <td>${b.user ? b.user.fullName : 'Unknown'}</td>
+                        <td>${b.pnr}</td>
+                        <td>${b.train ? b.train.name : '-'}</td>
+                        <td><span class="status-badge ${statusClass}">${b.status}</span></td>
+                        <td>
+                            ${b.status === 'CONFIRMED' ? `<button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size:0.8rem;" onclick="cancelBooking(${b.id})">Cancel</button>` : '-'}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        async function cancelBooking(id) {
+            if(!confirm("Force cancel this booking?")) return;
+            const res = await fetchApi(`/admin/bookings/${id}`, 'DELETE');
+            if(res.success) loadAllBookings();
+        }
+
+        // Init
+        loadTrains();
+    </script>
+</body>
+</html>
