@@ -4,7 +4,7 @@ The Railway Management System is a Java-based web application built using Servle
 ⭐ Features    
 👥 User Features
 
-View available trains
+View available trains 
   
 Book tickets
 
