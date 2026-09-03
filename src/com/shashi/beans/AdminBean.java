@@ -9,7 +9,7 @@ public class AdminBean implements Serializable {
 	private String fName;
 	private String lName;
 	private String pWord;
-	private String addR;
+	private String addR; 
 	private String mailId;
 	private long phNo;
 
