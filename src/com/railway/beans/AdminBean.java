@@ -8,7 +8,7 @@ public class AdminBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String fName;
 	private String lName;
-	private String pWord;
+	private String pWord; 
 	private String addR;
 	private String mailId;
 	private long phNo;
