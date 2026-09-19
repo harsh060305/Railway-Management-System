@@ -2,7 +2,7 @@ package com.railway.beans;
 
 import java.io.Serializable;
 
-public class AdminBean implements Serializable {
+public class AdminBean implements Serializable {  
 	
 	
 	private static final long serialVersionUID = 1L; 
